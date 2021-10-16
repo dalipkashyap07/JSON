@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+	<head>
+		<style>
+			.row{
+				
+				width:100%;
+				display: inline-flex;
+				margin-bottom:100px;
+			}
+			.name{
+				width:400px;
+				height:400px;
+				margin-right:300px;
+				background:#d3d3d3;
+			}
+			.price{
+				width:400px;
+				height:400px;
+				margin-left:300px;
+				background:#d3d3d3;
+			}
+			h2{
+				text-align:center;
+				margin-top:50px;
+			}
+			.product-row{
+				text-align:center;
+			}
+			.addbutton {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    height: 31px;
+    width: 100px;
+	transition: 0.5s ease;
+	cursor: pointer;
+}
+.removebutton {
+    background-color: #dd0c33;
+    border: none;
+    color: white;
+    height: 31px;
+    width: 100px;
+	transition: 0.5s ease;
+	cursor: pointer;
+}
+			.addbutton:hover, .removebutton:hover{
+    background-color: #585555;
+    
+}
+		</style>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+	</head>
+		<body onload="load_data()" id="my_body">
+			
+				<script>
+				function add(){
+							
+					console.log("Success: You have added This Product to your Cart 	");
+					
+					}
+					function remove(){
+							
+					console.log("Remove From Cart Successfully");
+					
+					}
+					
+function getAjaxVariable()
+ {
+	 var xmlhttp;
+	if(window.XMLHttpRequest)
+	  {// code for IE7+, Firefox, Chrome, Opera, Safari
+	    xmlhttp=new XMLHttpRequest();
+	  }
+	else
+	  {// code for IE6, IE5
+	    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	  }
+	  
+	  return xmlhttp;
+ }
+                
+function load_data(){
+var temp;
+
+var xmlhttp=getAjaxVariable();
+	 
+	xmlhttp.onreadystatechange=function()
+	  {
+		  if(xmlhttp.readyState==4 && xmlhttp.status==200)
+			{
+            	// console.log(xmlhttp.responseText);
+            	var temp=xmlhttp.responseText.trim();
+            	var temp2=JSON.parse(temp);
+            	
+            	var result = Object.keys(temp2).map((key) => [Number(key), temp2[key]])[0][1];
+            	for(var i=0; i < result.length ; i++){
+                	var xyz=document.getElementById('my_body').innerHTML;
+					for(var j=0; j<result.length; j++){
+                	document.getElementById('my_body').innerHTML=xyz+'<h1>'+result[i].name+'</h1> <hr> <div class="row"> <div class="name"> <h2>'+result[i].productList[j].name+'<br>'+result[i].productList[j].price+'</h2> <div class="product-row"> <input type="button" class="addbutton" onclick="add()" value="Add " name="submit" /> <input type="button" class="removebutton" onclick="remove()" value="Remove" name="submit" /> </div> </div><br> </div>'
+					;
+					}
+					
+					
+                }
+            	// console.log(j);
+            	console.log(temp2);
+            	
+            	
+            
+            	
+            		
+			}
+	  }
+	
+	xmlhttp.open("GET","./jsonformat.json",true);
+	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	
+	xmlhttp.send();
+
+}
+				
+				</script>
+				
+		</body>
+</html>
